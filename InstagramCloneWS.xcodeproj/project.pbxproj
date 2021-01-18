@@ -13,6 +13,12 @@
 		2514F73325B5121300278B79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2514F73125B5121300278B79 /* Main.storyboard */; };
 		2514F73525B5121400278B79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2514F73425B5121400278B79 /* Assets.xcassets */; };
 		2514F73825B5121400278B79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2514F73625B5121400278B79 /* LaunchScreen.storyboard */; };
+		2514F74825B512F200278B79 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F74725B512F200278B79 /* MainTabController.swift */; };
+		2514F74B25B51AB800278B79 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F74A25B51AB800278B79 /* FeedController.swift */; };
+		2514F74F25B51AC000278B79 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F74E25B51AC000278B79 /* SearchController.swift */; };
+		2514F75225B51ACE00278B79 /* ImageSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75125B51ACE00278B79 /* ImageSelectorController.swift */; };
+		2514F75525B51AD400278B79 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75425B51AD400278B79 /* NotificationController.swift */; };
+		2514F75825B51ADE00278B79 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75725B51ADE00278B79 /* ProfileController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +30,12 @@
 		2514F73425B5121400278B79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2514F73725B5121400278B79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2514F73925B5121400278B79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2514F74725B512F200278B79 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		2514F74A25B51AB800278B79 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
+		2514F74E25B51AC000278B79 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		2514F75125B51ACE00278B79 /* ImageSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectorController.swift; sourceTree = "<group>"; };
+		2514F75425B51AD400278B79 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		2514F75725B51ADE00278B79 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +68,12 @@
 		2514F72A25B5121300278B79 /* InstagramCloneWS */ = {
 			isa = PBXGroup;
 			children = (
+				2514F74525B5124F00278B79 /* Model */,
+				2514F74425B5124D00278B79 /* View */,
+				2514F74325B5124C00278B79 /* ViewModel */,
+				2514F74225B5124A00278B79 /* Controller */,
+				2514F74125B5124700278B79 /* API */,
+				2514F74025B5123E00278B79 /* Utill */,
 				2514F72B25B5121300278B79 /* AppDelegate.swift */,
 				2514F72D25B5121300278B79 /* SceneDelegate.swift */,
 				2514F72F25B5121300278B79 /* ViewController.swift */,
@@ -65,6 +83,62 @@
 				2514F73925B5121400278B79 /* Info.plist */,
 			);
 			path = InstagramCloneWS;
+			sourceTree = "<group>";
+		};
+		2514F74025B5123E00278B79 /* Utill */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utill;
+			sourceTree = "<group>";
+		};
+		2514F74125B5124700278B79 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		2514F74225B5124A00278B79 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2514F74725B512F200278B79 /* MainTabController.swift */,
+				2514F75A25B51B5E00278B79 /* DetailController */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2514F74325B5124C00278B79 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2514F74425B5124D00278B79 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2514F74525B5124F00278B79 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2514F75A25B51B5E00278B79 /* DetailController */ = {
+			isa = PBXGroup;
+			children = (
+				2514F74A25B51AB800278B79 /* FeedController.swift */,
+				2514F74E25B51AC000278B79 /* SearchController.swift */,
+				2514F75125B51ACE00278B79 /* ImageSelectorController.swift */,
+				2514F75425B51AD400278B79 /* NotificationController.swift */,
+				2514F75725B51ADE00278B79 /* ProfileController.swift */,
+			);
+			path = DetailController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +212,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2514F73025B5121300278B79 /* ViewController.swift in Sources */,
+				2514F75225B51ACE00278B79 /* ImageSelectorController.swift in Sources */,
+				2514F75525B51AD400278B79 /* NotificationController.swift in Sources */,
+				2514F74F25B51AC000278B79 /* SearchController.swift in Sources */,
 				2514F72C25B5121300278B79 /* AppDelegate.swift in Sources */,
+				2514F75825B51ADE00278B79 /* ProfileController.swift in Sources */,
+				2514F74B25B51AB800278B79 /* FeedController.swift in Sources */,
+				2514F74825B512F200278B79 /* MainTabController.swift in Sources */,
 				2514F72E25B5121300278B79 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
