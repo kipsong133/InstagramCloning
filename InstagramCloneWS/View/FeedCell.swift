@@ -131,7 +131,7 @@ class FeedCell: UICollectionViewCell {
     
     //MARK: - Helpers
     
-    func configureActionButton() {
+    func configureActionButton() { // StackView 가로
         
         let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, shareButton])
         stackView.axis = .horizontal
