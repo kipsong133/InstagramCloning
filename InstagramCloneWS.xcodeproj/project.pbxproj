@@ -19,6 +19,8 @@
 		2514F75225B51ACE00278B79 /* ImageSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75125B51ACE00278B79 /* ImageSelectorController.swift */; };
 		2514F75525B51AD400278B79 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75425B51AD400278B79 /* NotificationController.swift */; };
 		2514F75825B51ADE00278B79 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75725B51ADE00278B79 /* ProfileController.swift */; };
+		2514F75D25B549C300278B79 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75C25B549C300278B79 /* FeedCell.swift */; };
+		2514F76025B54B4E00278B79 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75F25B54B4E00278B79 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		2514F75125B51ACE00278B79 /* ImageSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectorController.swift; sourceTree = "<group>"; };
 		2514F75425B51AD400278B79 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		2514F75725B51ADE00278B79 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		2514F75C25B549C300278B79 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		2514F75F25B54B4E00278B79 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +77,7 @@
 				2514F74325B5124C00278B79 /* ViewModel */,
 				2514F74225B5124A00278B79 /* Controller */,
 				2514F74125B5124700278B79 /* API */,
-				2514F74025B5123E00278B79 /* Utill */,
+				2514F74025B5123E00278B79 /* Utils */,
 				2514F72B25B5121300278B79 /* AppDelegate.swift */,
 				2514F72D25B5121300278B79 /* SceneDelegate.swift */,
 				2514F72F25B5121300278B79 /* ViewController.swift */,
@@ -85,11 +89,12 @@
 			path = InstagramCloneWS;
 			sourceTree = "<group>";
 		};
-		2514F74025B5123E00278B79 /* Utill */ = {
+		2514F74025B5123E00278B79 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				2514F75F25B54B4E00278B79 /* Extensions.swift */,
 			);
-			path = Utill;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		2514F74125B5124700278B79 /* API */ = {
@@ -118,6 +123,7 @@
 		2514F74425B5124D00278B79 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2514F75C25B549C300278B79 /* FeedCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -212,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2514F73025B5121300278B79 /* ViewController.swift in Sources */,
+				2514F75D25B549C300278B79 /* FeedCell.swift in Sources */,
 				2514F75225B51ACE00278B79 /* ImageSelectorController.swift in Sources */,
 				2514F75525B51AD400278B79 /* NotificationController.swift in Sources */,
 				2514F74F25B51AC000278B79 /* SearchController.swift in Sources */,
@@ -219,6 +226,7 @@
 				2514F75825B51ADE00278B79 /* ProfileController.swift in Sources */,
 				2514F74B25B51AB800278B79 /* FeedController.swift in Sources */,
 				2514F74825B512F200278B79 /* MainTabController.swift in Sources */,
+				2514F76025B54B4E00278B79 /* Extensions.swift in Sources */,
 				2514F72E25B5121300278B79 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
