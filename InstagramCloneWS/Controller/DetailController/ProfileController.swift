@@ -14,12 +14,25 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - Properties
     
+    var user: User? {
+        // fetchUser() 에서 데이터가 Model로 넘어가서 값을 변경한 다음에 .title의 값을 변경해주어야 하므로 didSet 활용.
+        didSet { navigationItem.title = user?.username}
+    }
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configrueCollectionView()
+        fetchUser()
         
-        
+    }
+    
+    //MARK: - API
+    
+    func fetchUser() {
+        UserService.fetchUser { (user) in
+            self.user = user
+        }
     }
     
     
