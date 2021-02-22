@@ -12,6 +12,10 @@ class ProfileHeader: UICollectionReusableView {
     
     //MARK: - Properties
     
+    // ProfileHeaderViewModel에 데이터가 모두 있기 때문에 인스턴스를 생성해준다.
+    // 다만 그 내부에 configure() 메소드가 있는데,
+    // 이 함수를 통해서 각 View의 UI 구성요소의 값들을 업데이트 해주는 최종 단계가 되는 것이다.
+    // 여기있는 값은 Controller에서왓고 controller에 온 값은 Firebase에서 왔다.
     var viewModel: ProfileHeaderViewModel? {
         didSet { configure() }
     }
@@ -152,17 +156,19 @@ class ProfileHeader: UICollectionReusableView {
     //MARK: - Helpers
     
     func configure() {
+        // ViewModel은 View에서 옵셔널로 생성하기 때문에 옵셔널 체이닝을 무조건 한다고 
+        // 오해해버려도 사용상 지장 없음.
         guard let viewModel = viewModel else {return}
         
-        nameLabel.text = viewModel.fullname
+        // viewModel에 있는 데이터를 UI와 연결해준다.(ViewModel 로직에서 나눠둔 상태니까)
+        nameLabel.text = viewModel.fullname                          
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
         
     }
     
     func attributedStatText(value: Int, label: String) -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: label, attributes: [.font: UIFont.systemFont(ofSize: 14),
-                                                                             .foregroundColor: UIColor.lightGray]))
+        attributedText.append(NSAttributedString(string: label, attributes: [.font: UIFont.systemFont(ofSize: 14),.foregroundColor: UIColor.lightGray]))
         return attributedText
     }
     

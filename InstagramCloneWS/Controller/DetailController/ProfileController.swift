@@ -20,10 +20,13 @@ class ProfileController: UICollectionViewController {
     }
     
     //MARK: - LifeCycle
+    
+    
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-        configrueCollectionView()
-        fetchUser()
+        super.viewDidLoad()         // fuxxing Simple Logic.
+        configrueCollectionView()   // CollectionView 구현한다.
+        fetchUser()                 // Load되면 데이터를 받아온다.
         
     }
     
@@ -63,9 +66,16 @@ extension ProfileController {
     
     // 헤더 생성하는 메소드
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        // 프로필 화면으로 이동하면, 헤더화면을 구성해야할 것이다. 
+        // 그러므로 ProfileHeader라는 View를 생성한 후, 사용자 정보에 맞는 데이터를 UI로 구현해야한다.
+        // 그러므로 인스턴스 생성 -> viewModel 데이터 이동 이 두 과정을 controller 에서 해야한다.
         
+        // 1. ProfileHeader 인스턴스를 생성한다.
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
         
+        // 2. user(데이터)를 ViewModel에 넣은 후, 결과값을 위에서 생성한 인스턴스의 viewModel에
+        // 넣는다.( ProfileHeader의 변수로 viewModel을 만들어 준 상황임. )
+        // Controller의 역할인 Input 데이터 넣는 과정이 바로 여기다.
         if let user = user {
             header.viewModel = ProfileHeaderViewModel(user: user)
         } 
