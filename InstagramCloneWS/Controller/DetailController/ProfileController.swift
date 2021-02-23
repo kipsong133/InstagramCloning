@@ -82,6 +82,8 @@ extension ProfileController {
         // 1. ProfileHeader 인스턴스를 생성한다.
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
         
+        header.delegate = self
+        
         // 2. user(데이터)를 ViewModel에 넣은 후, 결과값을 위에서 생성한 인스턴스의 viewModel에
         // 넣는다.( ProfileHeader의 변수로 viewModel을 만들어 준 상황임. )
         // Controller의 역할인 Input 데이터 넣는 과정이 바로 여기다.
@@ -126,4 +128,23 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 240)
     }
+}
+
+//MARK: - ProfileHeaderDelegate
+
+extension ProfileController: ProfileHeaderDelegate {
+    func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User) {
+        
+        if user.isCurrentUser {
+            print("DEBUG: show edit profile here...")
+        } else if user.isFollowed {
+            print("DEBUG: handle unfollow user here...")
+        } else {
+            UserService.follow(uid: user.uid) { (error) in
+                print("DEBUG: did follow user. Update UI now...")
+            }
+        }
+    }
+    
+    
 }

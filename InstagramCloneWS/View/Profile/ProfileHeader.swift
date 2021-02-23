@@ -8,6 +8,12 @@
 import UIKit
 import SDWebImage
 
+
+// View에서는 API통신처리를 안하기 위해서 Protocol을 통해서 구현함.
+protocol ProfileHeaderDelegate: class {
+    func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User)
+}
+
 class ProfileHeader: UICollectionReusableView {
     
     //MARK: - Properties
@@ -19,6 +25,8 @@ class ProfileHeader: UICollectionReusableView {
     var viewModel: ProfileHeaderViewModel? {
         didSet { configure() }
     }
+    
+    weak var delegate: ProfileHeaderDelegate?
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -149,7 +157,9 @@ class ProfileHeader: UICollectionReusableView {
     //MARK: - Actions
     
     @objc func handleEditProfileFollowTapped() {
-        print("DEBUG: Handle edit Profile")
+        // 사용자가 edit 버튼을 눌렀을 때 진행할 로직.
+        guard let viewModel = viewModel else { return }
+        delegate?.header(self, didTapActionButtonFor: viewModel.user)
     }
     
     
@@ -163,7 +173,12 @@ class ProfileHeader: UICollectionReusableView {
         // viewModel에 있는 데이터를 UI와 연결해준다.(ViewModel 로직에서 나눠둔 상태니까)
         nameLabel.text = viewModel.fullname                          
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-        
+    
+        // 사용자가 프로필에 접속한 경우와 다른사람의 계정을 본 경우를 viewModel에 로직을 구현했고,
+        // 그 결과에 따라 버튼의 UI를 변경해주고 있는 코드
+        editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)
+        editProfileFollowButton.setTitleColor(viewModel.followButtonTextColor, for: .normal)
+        editProfileFollowButton.backgroundColor = viewModel.followButtonBackgroundColor
     }
     
     func attributedStatText(value: Int, label: String) -> NSAttributedString {
@@ -175,3 +190,5 @@ class ProfileHeader: UICollectionReusableView {
     
     
 }
+
+

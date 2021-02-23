@@ -7,6 +7,8 @@
 
 import Firebase
 
+typealias FirestoreCompletion = (Error?) -> Void
+
 // 유저 정보를 가져오기
 struct UserService {
     static func fetchUser(completion: @escaping(User) -> Void) { // completion에 User가 있어서 이 메소드를 
@@ -53,4 +55,22 @@ struct UserService {
             completion(users)
         }
     }
+    
+    
+    static func follow(uid: String, completion: @escaping(FirestoreCompletion)) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        // 사용자Uid의 컬랙션 중 "user-following"으로 이동하고, (선택한)uid를 추가한다.
+        // 그리고 Completion 블럭 내에 같은 로직이지만 테이블만 "user-follower"로 변경하여 uid를 똑같이 넣는다.
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).setData([:]) { (error) in                  // 여기까지로직은 내 데이터에 내가 팔로우했으니가 상대방의 id를 넣는다.
+            COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(currentUid).setData([:], completion: completion) // 여기로직은 내가 팔로워가 되고 내 데이터를 상대방에게 넣는다.
+        }
+    }
+    
+    
+    static func unfollow(uid: String, completion: @escaping(FirestoreCompletion)) {
+        
+    }
+    
+    
 }

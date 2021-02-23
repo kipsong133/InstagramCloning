@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 struct User {
     let email: String
@@ -13,6 +14,11 @@ struct User {
     let profileImageUrl: String
     let username: String
     let uid: String
+    
+    var isFollowed = false
+    
+    // 사용자인지 혹은 다른 사람 프로필인지 확인하기 위한 용도의 연산프로퍼티
+    var isCurrentUser: Bool { return Auth.auth().currentUser?.uid == uid }
     
     // UserService에서 구현해야할 데이터 저장과정을 이곳에 바로 함.
     init(dictionary: [String:Any]) {

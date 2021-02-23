@@ -10,6 +10,7 @@
 // ex) 내 정보(프로필)화면, 카테고리에 따른 테이블 뷰 혹은 컬렉션뷰 데이터 변화 등...
 
 import Foundation
+import UIKit
 
 // 내 정보 페이지 최 상단에 들어갈 Header에 데이터를 가져오고 그 값을 활용하기 위해 작성된 struct.
 struct ProfileHeaderViewModel {
@@ -25,6 +26,21 @@ struct ProfileHeaderViewModel {
     // 이미지를 직접 저장하는 것보다 URL로 받을 가능성이 상당히 농후하므로 잘 봐두자.
     var profileImageUrl: URL? {
         return URL(string: user.profileImageUrl)
+    }
+    
+    var followButtonText: String {
+        if user.isCurrentUser { // 사용자가 자신의 프로필을 보러온 경우,
+            return "Edit Profile"
+        }
+        return user.isFollowed ? "Following" : "Follow"
+    }
+    
+    var followButtonBackgroundColor: UIColor {
+        return user.isCurrentUser ? .white : .systemBlue
+    }
+    
+    var followButtonTextColor: UIColor {
+        return user.isCurrentUser ? .black : .white
     }
     
     init(user: User) {
