@@ -20,7 +20,17 @@ class SearchController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
+        fetchUsers()
     }
+    
+    //MARK: - API
+    
+    func fetchUsers() {
+        UserService.fetchUsers { (users) in
+            print("DEBUG: SearchController : \(users)")
+        }
+    }
+    
     
     //MARK: - Helpers
     
