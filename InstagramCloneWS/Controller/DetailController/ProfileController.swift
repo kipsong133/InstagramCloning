@@ -14,8 +14,12 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - Properties
     
+    // 원래는 아래 코드처럼 didSet을 사용했었으나, 여기에서는 var로 변경하고 View에서 didSet으로 변경함.
+    // 이유 : 이 Controller에서 데이터통신을하는 것이 아니라, MainTabBarController에서 데이터를 수신하고,
+    // 여기서는 init(user:)의 파라피터를 이용해서 데이터를 받을 것이기 때문이다. 그리고 로그아웃하고 다시 로그인하면
+    // 프로필이 업데이트 된다. 이유는 MainTabBarController에서 새롭게 controller 인스턴스를 생성하므로
+    // 데이터도 그에 맞게 업데이트 될 것이다.
     private var user: User
-    
 //    {
 //        // fetchUser() 에서 데이터가 Model로 넘어가서 값을 변경한 다음에 .title의 값을 변경해주어야 하므로 didSet 활용.
 //        didSet { collectionView.reloadData() }
@@ -37,7 +41,6 @@ class ProfileController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()         // fuxxing Simple Logic.
         configrueCollectionView()   // CollectionView 구현한다.
-//        fetchUser()                 // Load되면 데이터를 받아온다.
         
     }
     
