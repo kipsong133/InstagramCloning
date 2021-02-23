@@ -69,7 +69,12 @@ struct UserService {
     
     
     static func unfollow(uid: String, completion: @escaping(FirestoreCompletion)) {
-        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        // Following 테이블에 가서 (내 계정의) 언팔할 uid를 삭제한다.
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).delete { (error) in
+            // Follower 테이블 가서 (상대방계정) 내 uid를 삭제한다.
+            COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(currentUid).delete(completion: completion)
+        }
     }
     
     

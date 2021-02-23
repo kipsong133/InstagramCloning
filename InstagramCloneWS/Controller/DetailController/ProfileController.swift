@@ -136,12 +136,20 @@ extension ProfileController: ProfileHeaderDelegate {
     func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User) {
         
         if user.isCurrentUser {
+            // 자신의 프로필을 변경하려 할때, 아래 로직을 진행한다.
             print("DEBUG: show edit profile here...")
         } else if user.isFollowed {
-            print("DEBUG: handle unfollow user here...")
+            // unfollow 시 아래 로직을 진행한다.
+            UserService.unfollow(uid: user.uid) { (error) in
+                // follow버튼을 클릭했을 때, 아래 로직을 진행한다.
+                self.user.isFollowed = false
+                self.collectionView.reloadData()
+            }
         } else {
             UserService.follow(uid: user.uid) { (error) in
-                print("DEBUG: did follow user. Update UI now...")
+                // follow버튼을 클릭했을 때, 아래 로직을 진행한다.
+                self.user.isFollowed = true
+                self.collectionView.reloadData()
             }
         }
     }
