@@ -11,12 +11,8 @@ class UserCell: UITableViewCell {
     
     //MARK: - Properties
     
-    var user: User? {
-        didSet {
-            guard let users = user else { return }
-            usernameLabel.text = users.username
-            fullnameLabel.text = users.fullname
-        }
+    var viewModel: UserCellViewModel? {
+        didSet { configure() }
     }
     
     private let profileImageView: UIImageView = {
@@ -69,5 +65,15 @@ class UserCell: UITableViewCell {
     }
     
     
+    //MARK: - Helpers
     
+    func configure() {
+        // 1. viewModel 옵셔널 체이닝하고
+        guard let viewModel = viewModel else { return }
+        
+        // 2. UI를 업데이트한다.
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        usernameLabel.text = viewModel.username
+        fullnameLabel.text = viewModel.fullname
+    }
 }
