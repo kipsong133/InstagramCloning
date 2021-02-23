@@ -24,14 +24,25 @@ class FeedController: UICollectionViewController {
     
     //MARK: - Actions
     
-    @objc func handleLogout() {
+    @objc func handleLogout() { // 로그아웃을 누르면 호출될 메소드
         do {
+            // 1. Firebase에서 signOut 로직을 실행
             try Auth.auth().signOut()
+            
+            // 2. LoginController 인스턴스 생성
             let controller = LoginController()
+            
+            // 3. LoginController의 델리게이트 변수가 있는데, 그걸 MainTabController로 지정
+            // 만약 여기서 Delegate를 지정하지 않는다면, 데이터관점에서는 로그인이되지만, 
+            // LoginController가 dismiss가 안된다. 왜냐하면 DelegateProtocol function으로
+            // dismiss를 구현해준 상황이므로.
             controller.delegate = self.tabBarController as? MainTabController
+            
+            // 4. present로 화면전환
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
+            
         } catch {
             print("DEBUG: Failed to sign out ")
         }

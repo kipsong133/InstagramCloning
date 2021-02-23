@@ -10,24 +10,48 @@ import Firebase
 
 class MainTabController: UITabBarController {
     
+    //MARK: Properties
+    
+    private var user: User? {
+        didSet {
+            guard let user = user else { return }
+            configureViewController(withUser: user)
+        }
+    }
+    
+    
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configureViewController()
         checkIfUserIsLoggedIn()
+        fetchUser()
 //        logout()
         
     }
     
     //MARK: - API
     
+    func fetchUser() {
+        UserService.fetchUser { (user) in
+            self.user = user
+        }
+    }
+    
+    
     func checkIfUserIsLoggedIn() {
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let controller = LoginController()
+                
+                // LoginController를 present하기 전에 delegate를 지정해준다.
+                // 보통의 경우 viewDidLoad() 에서 하지만 이곳에서 하는 이유 :
+                // 굳이 viewDidLoad의 순간에는 Delegate가 필요없다. 
+                // LoginController의 인스턴스를 생성하기 직전에 지정해주는게 메모리 사용을 최소화할 수 있다.
                 controller.delegate = self
+                
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)
@@ -50,7 +74,7 @@ class MainTabController: UITabBarController {
     
     //MARK: - Helpers
     
-    func configureViewController() {
+    func configureViewController(withUser user: User) {
         
         // TabBar의 각각 할당될 Controller의 인스턴스를 생성.
         
@@ -61,8 +85,8 @@ class MainTabController: UITabBarController {
         let imageSelector = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"), rootViewController: ImageSelectorController())
         let notification = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"), rootViewController: NotificationController())
         
-        let profileLayout = UICollectionViewFlowLayout()
-        let profile = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: ProfileController(collectionViewLayout: profileLayout))
+        let profileController = ProfileController(user: user)
+        let profile = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: profileController)
         
         // UITabBarController에서 사용하는 Array 
         viewControllers = [feed, search, imageSelector, notification, profile]
@@ -83,10 +107,13 @@ class MainTabController: UITabBarController {
     
 }
 
+//MARK: - AuthenticationDelegate
+// LoginController의 로직을 대리수행할 func 구현
 
 extension MainTabController: AuthenticationDelegate {
     func authenticationDidComplete() {
-        print("DEBUG: Auth did complete. Fetch user and update here.")
+        fetchUser()
+        self.dismiss(animated: true, completion: nil)
     }
     
     

@@ -23,6 +23,7 @@
 		2514F76025B54B4E00278B79 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F75F25B54B4E00278B79 /* Extensions.swift */; };
 		2514F76425B66F9A00278B79 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F76325B66F9A00278B79 /* LoginController.swift */; };
 		2514F76825B66FA300278B79 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2514F76725B66FA300278B79 /* RegistrationController.swift */; };
+		251D55C525E4B44600C4F28F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251D55C425E4B44600C4F28F /* UserCell.swift */; };
 		255FF89D25B67D7F007CC761 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255FF89C25B67D7F007CC761 /* CustomTextField.swift */; };
 		255FF8A025B68AF8007CC761 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255FF89F25B68AF8007CC761 /* AuthenticationViewModel.swift */; };
 		255FF8A325B6C213007CC761 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 255FF8A225B6C213007CC761 /* GoogleService-Info.plist */; };
@@ -56,6 +57,7 @@
 		2514F75F25B54B4E00278B79 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2514F76325B66F9A00278B79 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		2514F76725B66FA300278B79 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		251D55C425E4B44600C4F28F /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		255FF89C25B67D7F007CC761 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		255FF89F25B68AF8007CC761 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		255FF8A225B6C213007CC761 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -167,6 +169,7 @@
 				2593274B25B80D3500DB26DF /* Profile */,
 				2514F75C25B549C300278B79 /* FeedCell.swift */,
 				255FF89C25B67D7F007CC761 /* CustomTextField.swift */,
+				251D55C425E4B44600C4F28F /* UserCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				2514F75225B51ACE00278B79 /* ImageSelectorController.swift in Sources */,
 				2514F75525B51AD400278B79 /* NotificationController.swift in Sources */,
 				255FF8A025B68AF8007CC761 /* AuthenticationViewModel.swift in Sources */,
+				251D55C525E4B44600C4F28F /* UserCell.swift in Sources */,
 				2514F74F25B51AC000278B79 /* SearchController.swift in Sources */,
 				2514F72C25B5121300278B79 /* AppDelegate.swift in Sources */,
 				2594494625B905CF00623147 /* User.swift in Sources */,
