@@ -116,8 +116,17 @@ class MainTabController: UITabBarController {
                 // 선택한 이미지를 "selectedImage" 에 저장.
                 guard let selectedImage = items.singlePhoto?.image else { return }
                 
-                // UploadController로 이동
+                // UploadController로 이동(선택한 이미지와 함께)
                 let controller = UploadPostController()
+                
+                // 포스팅 종료 후, FeedController 이동을 위한 프로토콜 구현했으므로
+                // Delegate 지정 (UploadPostControllerDelegate)
+                controller.delegate = self
+                
+                // 이미지 전달
+                controller.selectedImage = selectedImage
+                
+                // 화면 전환
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: false, completion: nil)
@@ -172,4 +181,16 @@ extension MainTabController: UITabBarControllerDelegate {
         
         return true
     }
+}
+
+
+//MARK: - UploadPostControllerDelegate
+
+extension MainTabController: UploadPostControllerDelegate {
+    func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
+        selectedIndex = 0                                   // FeedController를 보여줌.
+        controller.dismiss(animated: true, completion: nil) // 포스팅아친 후 포스팅controlelr dismiss
+    }
+    
+    
 }

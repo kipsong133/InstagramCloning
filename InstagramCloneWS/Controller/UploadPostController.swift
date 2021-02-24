@@ -7,13 +7,25 @@
 
 import UIKit
 
+// ViewController에서 TabBarContrller 컨트롤이 불가능해서 protocol 이용.
+// 목적 : posting이 끝난 다음에 FeedController의 화면에 머물게 하고 싶음.
+// MainTabBarController에서 메소드 로직 구현.
+protocol UploadPostControllerDelegate: class {
+    func controllerDidFinishUploadingPost(_ controller: UploadPostController) 
+}
+
 class UploadPostController: UIViewController {
     
     //MARK: - Properties
     
+    weak var delegate: UploadPostControllerDelegate?
+    
+    var selectedImage: UIImage? {
+        didSet { photoImageView.image = selectedImage }
+    }
+    
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "venom-7")
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
@@ -55,7 +67,25 @@ class UploadPostController: UIViewController {
     }
     
     @objc func didTapDone() {
-        print("DEBUG: Share post here...")
+        // 이미지와 텍스트를 firebase에 저장.
+        // API -> PostService에 구현한 상태 (PostService.swift)
+        guard let image = selectedImage else { return }
+        guard let caption = captionTextView.text else { return }
+        
+        // 텍스트와 이미지를 input으로 하고 firebase에 로드하는 전역메소드이용.
+        PostService.uploadPost(caption: caption, image: image) { (error) in
+            // error 처리
+            if let error = error {
+                print("DEBUG: Failed to upload post with error \(error.localizedDescription)")
+                return
+            }
+            
+            // Posting을 마친다음에 홈화면으로 돌아기기 위한 코드
+            self.delegate?.controllerDidFinishUploadingPost(self)
+            
+            
+        }
+        
     }
     
     
