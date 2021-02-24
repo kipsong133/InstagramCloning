@@ -19,9 +19,15 @@ class UploadPostController: UIViewController {
         return iv
     }()
     
-    private let captionTextView: UITextView = {
-        let tv = UITextView()
-        
+    // textField에서 placeholer의 역할을 하고 있음.
+    // Utils에 custom Class 만든 상태.
+    // TextField로 만들었다면, 그냥 placeholer로 지정하고 끝내면되지만, 게시물의 특성상, textField의 정도로입력하지 않고,
+    // 더 긴 text를 입력하므로 textView를 했고, placeholer를 생성하기 위해 좀더 로직이 필요함.
+    private lazy var captionTextView: InputTextView = {
+        let tv = InputTextView()
+        tv.placeholderText = "Enter caption..."
+        tv.font = UIFont.systemFont(ofSize: 16)
+        tv.delegate = self
         return tv
     }()
     
@@ -55,6 +61,13 @@ class UploadPostController: UIViewController {
     
     //MARK: - Helpers
     
+    // textView의 글자수를 제한하기 위해 만든 커스텀메소드
+    func checkMaxLength(_ textView: UITextView) {
+        if (textView.text.count) > 100 {
+            textView.deleteBackward()
+        }
+    }
+    
     func configureUI() {
         view.backgroundColor = .white
         navigationItem.title = "Upload Post"
@@ -80,8 +93,30 @@ class UploadPostController: UIViewController {
         
         view.addSubview(characterCountLabel)
         characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: view.rightAnchor,
-                                   paddingRight: 12)
+                                   paddingBottom: -8,paddingRight: 12)
         
         
+    }
+}
+
+
+//MARK: - UITextViewDelegate
+
+extension UploadPostController: UITextViewDelegate {
+    
+    // textView가 변경될 때마다 아래 메소드가 호출된다.
+    // 그래서 글자 수를 확인해서 글자수를 label.text에 기입해주고, checkMaxLength 메소드를 호출하여 글자수가 100자가 넘어가면
+    // 작성되지 않도록 처리한 상태이다.
+    func textViewDidChange(_ textView: UITextView) {
+        checkMaxLength(textView)
+        let count = textView.text.count
+        characterCountLabel.text = "\(count)/100"
+        
+        // InputTextView에서 글자 입력시, placeHolder했던 부분을 주석처리하고 아래 코드를 실행해도 똑같은 로직으로 
+        // 글자 입력시, placeholor가 없어진다.
+        // 하지만 이걸사용하지 않은 이유는, Textview에서 그부분을 제거하면 아래 코드를 사용할 때마다 추가해야하는데,
+        // 까먹고 작성하지 않을 우려가 있다. 즉, 복사 붙여넣기만해서 사용하기에 불편해서이다.
+        // cf) 아래코드를 사용할라면 placeholderLabel private을 뺴줘야함!!
+//        captionTextView.placeholderLabel.isHidden = !captionTextView.text.isEmpty
     }
 }
