@@ -11,6 +11,10 @@ class FeedCell: UICollectionViewCell {
     
     //MARK: - Properties
     
+    var viewModel: PostViewModel? {
+        didSet { configure() }
+    }
+    
     // 프로필 사진.
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -69,7 +73,6 @@ class FeedCell: UICollectionViewCell {
     
     private let captionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Some test caption for now..."
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -130,6 +133,12 @@ class FeedCell: UICollectionViewCell {
     
     
     //MARK: - Helpers
+    
+    func configure() {
+        guard let viewModel = viewModel else { return}
+        captionLabel.text = viewModel.caption
+        postImageView.sd_setImage(with: viewModel.imageUrl) // 라이브러리를 활용한 이미지 캐싱 메소드
+    }
     
     func configureActionButton() { // StackView 가로
         
