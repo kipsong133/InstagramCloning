@@ -28,6 +28,13 @@ class FeedController: UICollectionViewController {
     
     //MARK: - Actions
     
+    // collectionView를 아래로 당기면, refresh되도록 수행하는 코드
+
+    @objc func handleRefresh() {
+//        posts.removeAll() // 잘은 모르겠는데, posts를 비우고나면, 데이터가 없어지므로, indexPath out of range 에러 발생.
+        fetchPosts()
+    }
+    
     @objc func handleLogout() { // 로그아웃을 누르면 호출될 메소드
         do {
             // 1. Firebase에서 signOut 로직을 실행
@@ -60,6 +67,7 @@ class FeedController: UICollectionViewController {
         PostService.fetchPosts { (posts) in
             // 읽어온 데이터를 controller의 인스턴스에 할당.
             self.posts = posts
+            self.collectionView.refreshControl?.endRefreshing()
             self.collectionView.reloadData()
         }
     }
@@ -76,6 +84,10 @@ class FeedController: UICollectionViewController {
                                                             action: #selector(handleLogout))
         navigationItem.title = "Feed"
         
+        // collectionView를 아래로 당기면, refresh되도록 수행하는 코드
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refresher
     }
     
     

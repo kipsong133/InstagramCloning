@@ -193,6 +193,13 @@ extension MainTabController: UploadPostControllerDelegate {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
         selectedIndex = 0                                   // FeedController를 보여줌.
         controller.dismiss(animated: true, completion: nil) // 포스팅아친 후 포스팅controlelr dismiss
+        
+        // 1. tabbarController에서 UINavigationController 접근
+        // 2. UINavi에서 FeedController로 접근
+        // 3. FeedController에서 메소드 실행.
+        guard let feedNax = viewControllers?.first as? UINavigationController else { return }
+        guard let feed = feedNax.viewControllers.first as? FeedController else { return }
+        feed.handleRefresh()
     }
     
     

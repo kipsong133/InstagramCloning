@@ -31,7 +31,8 @@ struct PostService {
     
     // 이미지를 선택한 이후에, Firebase에 데이터를 저장하는 메소드
     static func fetchPosts(completion: @escaping([Post]) -> Void) {
-        COLLECTION_POSTS.getDocuments { (snapshot, error) in
+        // order 메소드로 시간순으로 정렬했음. 실수 유의!!!
+        COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments { (snapshot, error) in
             guard let documents = snapshot?.documents else { return }
             
             // For-statement 대신해서 map으로 대체.
