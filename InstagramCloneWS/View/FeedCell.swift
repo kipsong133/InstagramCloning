@@ -21,7 +21,7 @@ class FeedCell: UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.isUserInteractionEnabled = true
-        iv.image = #imageLiteral(resourceName: "venom-7")
+        iv.backgroundColor = .lightGray
         return iv
     }()
     
@@ -29,7 +29,6 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system) 
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.setTitle("Venom", for: .normal)
         button.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
         return button
     }()
@@ -66,7 +65,6 @@ class FeedCell: UICollectionViewCell {
     
     private let likesLabel: UILabel = {
         let label = UILabel()
-        label.text = "I like"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
     }()
@@ -138,6 +136,9 @@ class FeedCell: UICollectionViewCell {
         guard let viewModel = viewModel else { return}
         captionLabel.text = viewModel.caption
         postImageView.sd_setImage(with: viewModel.imageUrl) // 라이브러리를 활용한 이미지 캐싱 메소드
+        profileImageView.sd_setImage(with: viewModel.userProfileImageUrl)
+        usernameButton.setTitle(viewModel.username, for: .normal)
+        likesLabel.text = viewModel.likesLabelText
     }
     
     func configureActionButton() { // StackView 가로

@@ -20,6 +20,8 @@ class UploadPostController: UIViewController {
     
     weak var delegate: UploadPostControllerDelegate?
     
+    var currentUser: User?
+    
     var selectedImage: UIImage? {
         didSet { photoImageView.image = selectedImage }
     }
@@ -71,11 +73,12 @@ class UploadPostController: UIViewController {
         // API -> PostService에 구현한 상태 (PostService.swift)
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
+        guard let user = currentUser else { return }
         
         showLoader(true)    // 로딩이미지 (extension)
         
         // 텍스트와 이미지를 input으로 하고 firebase에 로드하는 전역메소드이용.
-        PostService.uploadPost(caption: caption, image: image) { (error) in
+        PostService.uploadPost(caption: caption, image: image, user: user) { (error) in
             self.showLoader(false) // 이미지 업로드 완료 시, 로딩이미지 false
             
             // error 처리

@@ -126,6 +126,9 @@ class MainTabController: UITabBarController {
                 // 이미지 전달
                 controller.selectedImage = selectedImage
                 
+                // 이미지 선택할 당시, user 정보를 저장하기 위해 controller의 변수에 데이터를 할당함.
+                controller.currentUser = self.user
+                
                 // 화면 전환
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen
