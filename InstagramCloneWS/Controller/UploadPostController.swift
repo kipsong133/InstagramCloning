@@ -86,8 +86,6 @@ class UploadPostController: UIViewController {
             
             // Posting을 마친다음에 홈화면으로 돌아기기 위한 코드
             self.delegate?.controllerDidFinishUploadingPost(self)
-            
-            
         }
         
     }

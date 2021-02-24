@@ -12,6 +12,10 @@ private let reuseIdentifier = "Cell"
 
 class FeedController: UICollectionViewController {
     
+    //MARK: - Properties
+    
+    private var posts = [Post]()
+    
     
     //MARK: - Lifecycle
     
@@ -19,7 +23,7 @@ class FeedController: UICollectionViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureUI()
-        
+        fetchPosts()
     }
     
     //MARK: - Actions
@@ -49,7 +53,16 @@ class FeedController: UICollectionViewController {
     }
     
     
+    //MARK: - API
     
+    func fetchPosts() {
+        // fetcgPosts 메소드를 통해서 데이터를 읽어오는 로직
+        PostService.fetchPosts { (posts) in
+            // 읽어온 데이터를 controller의 인스턴스에 할당.
+            self.posts = posts
+            self.collectionView.reloadData()
+        }
+    }
     
     //MARK: - Helpers
     
@@ -77,7 +90,7 @@ extension FeedController {
     
     // Cell 갯수 생성 메소드
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     // Cell 생성 메소드

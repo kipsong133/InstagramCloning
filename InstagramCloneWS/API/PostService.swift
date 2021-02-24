@@ -26,4 +26,16 @@ struct PostService {
             COLLECTION_POSTS.addDocument(data: data, completion: completion)
         }
     }
+    
+    // 이미지를 선택한 이후에, Firebase에 데이터를 저장하는 메소드
+    static func fetchPosts(completion: @escaping([Post]) -> Void) {
+        COLLECTION_POSTS.getDocuments { (snapshot, error) in
+            guard let documents = snapshot?.documents else { return }
+            
+            // For-statement 대신해서 map으로 대체.
+            // postId를 == documentId 라고 생각.
+            let posts = documents.map({ Post(postId: $0.documentID, dictionary: $0.data()) })
+            completion(posts)
+        }
+    }
 }
