@@ -43,12 +43,30 @@ struct ProfileHeaderViewModel {
         return user.isCurrentUser ? .black : .white
     }
     
+    var numberOfFollowers: NSAttributedString {
+        return attributedStatText(value: user.state.followers, label: "followers")
+    }
+    
+    var numberOfFollowing: NSAttributedString {
+        return attributedStatText(value: user.state.following, label: "following")
+    }
+    
+    var numberOfPosts: NSAttributedString {
+        return attributedStatText(value: 5, label: "posts")
+    }
+    
     init(user: User) {
         // 원본 user에서 이 struct로 가져오기 위한 코드.
         // 이 구조체를 호출하는 곳에서 호출 할 때, user 값을 넣겠지?
         // 그러면 이 구조체 내부에 연산프로퍼티로 fullname과 profileImageUrl에 값이 생긴다.
         self.user = user
         
+    }
+    
+    func attributedStatText(value: Int, label: String) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: label, attributes: [.font: UIFont.systemFont(ofSize: 14),.foregroundColor: UIColor.lightGray]))
+        return attributedText
     }
     
 }

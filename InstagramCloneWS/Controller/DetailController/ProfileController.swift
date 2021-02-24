@@ -41,12 +41,34 @@ class ProfileController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()         // fuxxing Simple Logic.
         configrueCollectionView()   // CollectionView 구현한다.
-        
+        checkIfUserIsFollowed()
+        fetchUserStates()
     }
     
     //MARK: - API
     
+    func checkIfUserIsFollowed() {
+        // UserService에서 구현한 메소드 호출하기 위해 만든 메소드임.
+        UserService.checkIfUserIsFollowed(uid: user.uid) { (isFollowed) in
+            // 내 계정의 팔로우 목록중 상대방Uid가 있는지 확인하고 그 결과를 isFollowed로 전달받으니까
+            // 그걸 controller에서 데이터를 업데이트해주는 것임.
+            self.user.isFollowed = isFollowed
+            self.collectionView.reloadData()
+            
+            
+        }
+    }
  
+    // 사용자의 following follower의 상태를 알기 위해서 사용하는 메소드임.
+    func fetchUserStates() {
+        UserService.fetchUserState(uid: user.uid) { (stats) in
+            self.user.state = stats
+            self.collectionView.reloadData()
+            print("DEBUG: State \(stats)")
+        }
+    }
+    
+    
     
     //MARK: - Helpers
     

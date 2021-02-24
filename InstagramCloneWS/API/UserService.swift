@@ -77,5 +77,34 @@ struct UserService {
         }
     }
     
+ 
+    static func checkIfUserIsFollowed(uid: String, completion: @escaping(Bool) -> Void ) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        // 내 id로 가서 "user-following"에 들어가고, 내가 (선택한)특정 계정의 id 정보를 가져온다.
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).getDocument { (snapshot, error) in
+            // 그 결과로 snapshot이 나오는데 그 결과가 만약에 있으면 true, 없으면 false ==> 이를 통해 follow 여부 확인.
+            // 내가만약 언팔한 상태라면 내가 선택한 계정에 uid가 없을 것이고, 팔로우상태면 있을 것이므로.
+            guard let isFollowed = snapshot?.exists else { return }
+            completion(isFollowed)
+        }
+    }
+    
+    // 현재 following과 follower을 보여주기 위한 fetch 메소드
+    // ProfileCotnroller - Header 에서 사용하기 위해 만듦.
+    static func fetchUserState(uid: String, completion: @escaping(UserStates) -> Void) {
+        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { (snapshot, error) in
+            // table로 이동한다음에 거기서 결과값을 follower에 저장
+            let followers = snapshot?.documents.count ?? 0
+            
+            COLLECTION_FOLLOWING.document(uid).collection("user-following").getDocuments { (snapshot, error) in
+            // table로 이동한 다음에 거기서 결과값을 following에 저장
+                let following = snapshot?.documents.count ?? 0
+                
+                // 두 결과 값을 completion으로 전달하는데 model에 맞춰 전달한다.
+                completion(UserStates(followers: followers, following: following))
+            }
+        }
+    }
+    
     
 }
