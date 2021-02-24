@@ -19,11 +19,13 @@ class ProfileController: UICollectionViewController {
     // 여기서는 init(user:)의 파라피터를 이용해서 데이터를 받을 것이기 때문이다. 그리고 로그아웃하고 다시 로그인하면
     // 프로필이 업데이트 된다. 이유는 MainTabBarController에서 새롭게 controller 인스턴스를 생성하므로
     // 데이터도 그에 맞게 업데이트 될 것이다.
-    private var user: User
+    private var user: User 
 //    {
 //        // fetchUser() 에서 데이터가 Model로 넘어가서 값을 변경한 다음에 .title의 값을 변경해주어야 하므로 didSet 활용.
 //        didSet { collectionView.reloadData() }
 //    }
+        
+    private var posts = [Post]()
     
     //MARK: - LifeCycle
     
@@ -43,6 +45,7 @@ class ProfileController: UICollectionViewController {
         configrueCollectionView()   // CollectionView 구현한다.
         checkIfUserIsFollowed()
         fetchUserStates()
+        fetchPosts()
     }
     
     //MARK: - API
@@ -64,11 +67,16 @@ class ProfileController: UICollectionViewController {
         UserService.fetchUserState(uid: user.uid) { (stats) in
             self.user.state = stats
             self.collectionView.reloadData()
-            print("DEBUG: State \(stats)")
+             
         }
     }
     
-    
+    func fetchPosts() {
+        PostService.fetchPosts(forUser: user.uid) { (posts) in
+            self.posts = posts
+            self.collectionView.reloadData()
+        }
+    }
     
     //MARK: - Helpers
     
@@ -87,11 +95,12 @@ class ProfileController: UICollectionViewController {
 
 extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
+        cell.viewModel = PostViewModel(post: posts[indexPath.row])
         return cell
     }
     
@@ -122,7 +131,13 @@ extension ProfileController {
 //MARK: - UICollectionViewDelegate
 
 extension ProfileController {
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // ProfileController에 있는 Cell을 클릭해면 해당 게시물로 이동하는 로직
+        let controller = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        // 클릭하면 해당 게시물로 이동하기 위해서 선택된 데이터를 controller의 객체로 넘겨줌.
+        controller.post = posts[indexPath.row]
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 

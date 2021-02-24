@@ -41,4 +41,20 @@ struct PostService {
             completion(posts)
         }
     }
+    
+    static func fetchPosts(forUser uid: String, completion: @escaping([Post]) -> Void) {
+        // 작성자의 uid를 파라미터로 받고, post된 데이터(table)에서 찾아서 일치하는 것을 query에 할당
+        let query = COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid)            
+        // whereField : Firebase 기능으로 uid를 기준으로 필터링해준다.
+        
+        query.getDocuments { (snapshot, error) in
+            guard let documents = snapshot?.documents else { return }
+            
+            let posts = documents.map({ Post(postId: $0.documentID, dictionary: $0.data()) })
+            completion(posts)
+            
+        }
+    }
 }
+
+

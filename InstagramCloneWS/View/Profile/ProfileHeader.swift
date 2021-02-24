@@ -22,6 +22,7 @@ class ProfileHeader: UICollectionReusableView {
     // 다만 그 내부에 configure() 메소드가 있는데,
     // 이 함수를 통해서 각 View의 UI 구성요소의 값들을 업데이트 해주는 최종 단계가 되는 것이다.
     // 여기있는 값은 Controller에서왓고 controller에 온 값은 Firebase에서 왔다.
+    
     var viewModel: ProfileHeaderViewModel? {
         didSet { configure() }
     }

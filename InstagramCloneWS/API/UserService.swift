@@ -100,8 +100,13 @@ struct UserService {
             // table로 이동한 다음에 거기서 결과값을 following에 저장
                 let following = snapshot?.documents.count ?? 0
                 
-                // 두 결과 값을 completion으로 전달하는데 model에 맞춰 전달한다.
-                completion(UserStates(followers: followers, following: following))
+                COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { (snapshot, _) in
+                    let posts = snapshot?.documents.count ?? 0
+                    // 두 결과 값을 completion으로 전달하는데 model에 맞춰 전달한다.
+                    completion(UserStates(followers: followers, following: following, posts: posts))
+                }
+                
+                
             }
         }
     }

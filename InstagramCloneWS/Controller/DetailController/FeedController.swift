@@ -16,6 +16,9 @@ class FeedController: UICollectionViewController {
     
     private var posts = [Post]()
     
+    // post는 ProfileController에서 특정 Cell을 클릭했을 때, 사용할 프로퍼티로
+    // 1 개의 값만 있으면 된다.
+    var post: Post? // ProfileController 에서 값을 받을 예정.
     
     //MARK: - Lifecycle
     
@@ -63,6 +66,8 @@ class FeedController: UICollectionViewController {
     //MARK: - API
     
     func fetchPosts() {
+        guard post == nil else { return }
+        
         // fetcgPosts 메소드를 통해서 데이터를 읽어오는 로직
         PostService.fetchPosts { (posts) in
             // 읽어온 데이터를 controller의 인스턴스에 할당.
@@ -78,10 +83,15 @@ class FeedController: UICollectionViewController {
         
         collectionView.backgroundColor = .white
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout",
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(handleLogout))
+        
+        
+        if post == nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout",
+                                                               style: .plain,
+                                                               target: self,
+                                                               action: #selector(handleLogout))
+        }
+        
         navigationItem.title = "Feed"
         
         // collectionView를 아래로 당기면, refresh되도록 수행하는 코드
@@ -101,15 +111,22 @@ class FeedController: UICollectionViewController {
 extension FeedController {
     
     // Cell 갯수 생성 메소드
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {  // post가 nil인 경우 == 1 개의 cell을 클릭한 상황, 그 때는 셀이 1개만 필요하므로 3항 연산자 사용.
+        return post == nil ? posts.count : 1
     }
     
     // Cell 생성 메소드
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
-        cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        
+        // post에 값이 있는 경우 == 1 개의 cell을 클릭한 상황, 그때는 1개의 cell만 보여주면 되므로 로직을 2 개로 쪼갬
+        if let post = post {
+            cell.viewModel = PostViewModel(post: post)
+        } else {
+            cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        }
+        
         return cell
     }
     
