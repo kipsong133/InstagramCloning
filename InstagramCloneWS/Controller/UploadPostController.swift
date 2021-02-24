@@ -72,8 +72,12 @@ class UploadPostController: UIViewController {
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
         
+        showLoader(true)    // 로딩이미지 (extension)
+        
         // 텍스트와 이미지를 input으로 하고 firebase에 로드하는 전역메소드이용.
         PostService.uploadPost(caption: caption, image: image) { (error) in
+            self.showLoader(false) // 이미지 업로드 완료 시, 로딩이미지 false
+            
             // error 처리
             if let error = error {
                 print("DEBUG: Failed to upload post with error \(error.localizedDescription)")

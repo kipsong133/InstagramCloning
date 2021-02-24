@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import JGProgressHUD    // Loading Indicator cocopod
 
 extension UIViewController {
+    
+    static let hud = JGProgressHUD(style: .dark) // 로딩 시, 보여주기 위한 상수.
     
     func configureGradientLayer() {
         let gradient = CAGradientLayer()
@@ -17,8 +20,17 @@ extension UIViewController {
         gradient.frame = view.frame
     }
     
+    func showLoader(_ show: Bool) {
+        view.endEditing(true)
+        
+        if show {
+            UIViewController.hud.show(in: view)
+        } else {
+            UIViewController.hud.dismiss()
+        }
+    }
+    
 }
-
 
 
 extension UIButton {
