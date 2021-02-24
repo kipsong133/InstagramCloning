@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import YPImagePicker
 
 class MainTabController: UITabBarController {
     
@@ -76,6 +77,9 @@ class MainTabController: UITabBarController {
     
     func configureViewController(withUser user: User) {
         
+        // UITabBarControllerDelegate의 Delegate임.(extension에 있음)
+        self.delegate = self
+        
         // TabBar의 각각 할당될 Controller의 인스턴스를 생성.
         
         let layout = UICollectionViewFlowLayout()
@@ -105,6 +109,23 @@ class MainTabController: UITabBarController {
     }
     
     
+    // 이미지를 선택한 다음 할 행동 메소드(extension YP...에서 사용중.)
+    func didFinishPickingMedia(_ picker: YPImagePicker) {
+        picker.didFinishPicking { (items, _) in
+            picker.dismiss(animated: false) { 
+                // 선택한 이미지를 "selectedImage" 에 저장.
+                guard let selectedImage = items.singlePhoto?.image else { return }
+                
+                // UploadController로 이동
+                let controller = UploadPostController()
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: false, completion: nil)
+            }
+        }
+    }
+    
+    
 }
 
 //MARK: - AuthenticationDelegate
@@ -117,4 +138,38 @@ extension MainTabController: AuthenticationDelegate {
     }
     
     
+}
+
+//MARK: - UITabBarControllerDelegate
+
+extension MainTabController: UITabBarControllerDelegate {
+    
+    // TabBar가 클릭 될 때마다 호출되는 메소드로, 몇 번째를 클릭했는지는 index를 통해서 알 수 있음.
+    // (viewControllers?.firstIndex(of: viewController)
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let index = viewControllers?.firstIndex(of: viewController)
+        
+        // + 버튼을 눌렀을 때,
+        if index == 2 {
+            // YPImagePicker 라이브러리 사용. (cocopod + import)
+            var config = YPImagePickerConfiguration()       // 인스턴스 생성
+            config.library.mediaType = .photo               // 사용할 라이브러리는 photo
+            config.shouldSaveNewPicturesToAlbum = false     // 저장은 하지 않는다.
+            config.startOnScreen = .library
+            config.screens = [.library]
+            config.hidesStatusBar = false
+            config.hidesBottomBar = false
+            config.library.maxNumberOfItems = 1             // 사진 최대 선택 개수.
+            
+            let picker = YPImagePicker(configuration: config)
+            picker.modalPresentationStyle = .fullScreen
+            present(picker, animated: true, completion: nil)
+            // 여기까지만하면 Error가 발생함. why? info.plist에서 카메라 or 앨범 사용 허용설정을 안해서.
+            
+            // 이미지를 선택한 다음 할 행동 메소드(Helper에 정의해둠)
+            didFinishPickingMedia(picker)
+        }
+        
+        return true
+    }
 }
