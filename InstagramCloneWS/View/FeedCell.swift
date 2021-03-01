@@ -7,6 +7,14 @@
 
 import UIKit
 
+// Cell의 프로퍼티를 클릭하거나 해도 화면전환이 불가능하므로 Protocol을 통해서 구현하고자 프로토콜 생성.
+// (댓글, 공유 등 버튼을 통한 화면전환을 구현할 것이므로)
+// FeedController 에서 대리 수행할 예정.
+protocol FeedCellDelegate: class {
+    func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post)
+}
+
+
 class FeedCell: UICollectionViewCell {
     
     //MARK: - Properties
@@ -14,6 +22,8 @@ class FeedCell: UICollectionViewCell {
     var viewModel: PostViewModel? {
         didSet { configure() }
     }
+    
+    weak var delegate: FeedCellDelegate?
     
     // 프로필 사진.
     private let profileImageView: UIImageView = {
@@ -53,6 +63,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(didTapComments), for: .touchUpInside)
         return button
     }()
     
@@ -124,6 +135,11 @@ class FeedCell: UICollectionViewCell {
     
     
     //MARK: - Actions
+    
+    @objc func didTapComments() {
+        guard let viewModel = viewModel else { return }
+        delegate?.cell(self, wantsToShowCommentsFor: viewModel.post)
+    }
     
     @objc func didTapUsername() {
         print("DEBUG: did tap username")

@@ -23,13 +23,26 @@ class InputTextView: UITextView {
         return label
     }()
     
+    // Post할 때, TextView와 Comment할 때, TextView의 anchor가 다르기 때문에 이에 따라 변동을 주기 위해 생성한 변수.
+    // 이 프로퍼티를 사용하기 때문에, 최초 View에서 InputTextView를 생성할 때, true인지 false인지 결정해주어야함.
+    // 사용예시) commentInputAccesoryView.swift / UploadpostController.swift 에 있음.
+    var placeholderShouldCenter = true {
+        didSet {
+            if placeholderShouldCenter {
+                placeholderLabel.anchor(left: leftAnchor, right: rightAnchor, paddingLeft: 8)
+                placeholderLabel.centerY(inView: self)
+            } else {
+                placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 6, paddingLeft: 8)
+            }
+        }
+    }
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
         addSubview(placeholderLabel)
-        placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 6, paddingLeft: 8)
         
         // textView에서 Text가 변하고 있으면 Noti-Center에서 알려주고 기입된 콜백함수개 호출된다.
         // Textview를 작성할 때, observer생성하여 UI 동기화를 위해 작성했다고 생각하면 된다.

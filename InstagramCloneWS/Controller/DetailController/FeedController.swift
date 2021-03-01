@@ -119,7 +119,7 @@ extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
-        
+        cell.delegate = self
         // post에 값이 있는 경우 == 1 개의 cell을 클릭한 상황, 그때는 1개의 cell만 보여주면 되므로 로직을 2 개로 쪼갬
         if let post = post {
             cell.viewModel = PostViewModel(post: post)
@@ -148,4 +148,13 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         
         return CGSize(width: width, height: height)
     }
+}
+
+extension FeedController: FeedCellDelegate {
+    func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post) {
+        let controller = CommentController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    
 }
